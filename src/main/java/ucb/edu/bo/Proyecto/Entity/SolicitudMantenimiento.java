@@ -1,4 +1,4 @@
-package ucb.edu.bo.Proyecto.Entity;
+package ucb.edu.bo.Proyecto.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicInsert;
