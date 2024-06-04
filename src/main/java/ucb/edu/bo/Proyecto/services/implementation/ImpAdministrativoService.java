@@ -6,6 +6,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import ucb.edu.bo.Proyecto.dto.AdministrativoDto;
+import ucb.edu.bo.Proyecto.dto.BloqueDto;
+import ucb.edu.bo.Proyecto.dto.DepartamentoDto;
+import ucb.edu.bo.Proyecto.dto.UserDto;
+import ucb.edu.bo.Proyecto.entity.Administrativo;
+import ucb.edu.bo.Proyecto.repositories.AdministrativoRepository;
 
 import java.util.List;
 import java.util.Optional;
