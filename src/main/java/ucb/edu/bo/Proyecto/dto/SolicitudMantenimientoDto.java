@@ -1,5 +1,7 @@
 package ucb.edu.bo.Proyecto.dto;
 
+import ucb.edu.bo.Proyecto.entity.Equipo;
+import ucb.edu.bo.Proyecto.entity.User;
 import java.util.Date;
 
 public class SolicitudMantenimientoDto {
