@@ -1,12 +1,24 @@
 package ucb.edu.bo.Proyecto.services.implementation;
 
 import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import ucb.edu.bo.Proyecto.dto.AsignacionEquipoDto;
+import ucb.edu.bo.Proyecto.dto.EquipoDto;
+import ucb.edu.bo.Proyecto.entity.Administrativo;
+import ucb.edu.bo.Proyecto.entity.AsignacionEquipo;
+import ucb.edu.bo.Proyecto.entity.Equipo;
+import ucb.edu.bo.Proyecto.entity.User;
+import ucb.edu.bo.Proyecto.repositories.AdministrativoRepository;
+import ucb.edu.bo.Proyecto.repositories.AsignacionEquipoRepository;
+import ucb.edu.bo.Proyecto.repositories.EquipoRepository;
+import ucb.edu.bo.Proyecto.repositories.UserRepository;
+import ucb.edu.bo.Proyecto.services.IAsignacionEquipoService;
 
 import java.util.List;
 import java.util.Optional;

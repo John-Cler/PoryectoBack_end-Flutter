@@ -1,10 +1,15 @@
 package ucb.edu.bo.Proyecto.services.implementation;
 
 import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import ucb.edu.bo.Proyecto.dto.AsignacionMantenimientoDto;
+import ucb.edu.bo.Proyecto.entity.AsignacionMantenimiento;
+import ucb.edu.bo.Proyecto.entity.SolicitudMantenimiento;
+import ucb.edu.bo.Proyecto.entity.User;
 import ucb.edu.bo.Proyecto.repositories.AsignacionMantenimientoRepository;
 import ucb.edu.bo.Proyecto.repositories.SolicitudMantenimientoRepository;
 import ucb.edu.bo.Proyecto.repositories.UserRepository;
