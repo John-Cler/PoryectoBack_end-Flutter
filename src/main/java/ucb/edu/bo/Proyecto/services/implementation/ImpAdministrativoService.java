@@ -10,7 +10,9 @@ import ucb.edu.bo.Proyecto.dto.BloqueDto;
 import ucb.edu.bo.Proyecto.dto.DepartamentoDto;
 import ucb.edu.bo.Proyecto.dto.UserDto;
 import ucb.edu.bo.Proyecto.entity.Administrativo;
+import ucb.edu.bo.Proyecto.entity.User;
 import ucb.edu.bo.Proyecto.repositories.AdministrativoRepository;
+import ucb.edu.bo.Proyecto.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
