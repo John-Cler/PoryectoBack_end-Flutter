@@ -4,11 +4,6 @@ public class BloqueDto {
     private Integer id;
     private String nombre;
 
-    public BloqueDto(Integer id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
-    }
-
     public Integer getId() {
         return id;
     }
