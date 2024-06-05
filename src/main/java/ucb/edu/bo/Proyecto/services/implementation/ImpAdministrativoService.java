@@ -1,10 +1,12 @@
 package ucb.edu.bo.Proyecto.services.implementation;
 
 import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 import ucb.edu.bo.Proyecto.dto.AdministrativoDto;
 import ucb.edu.bo.Proyecto.dto.BloqueDto;
 import ucb.edu.bo.Proyecto.dto.DepartamentoDto;
@@ -13,12 +15,14 @@ import ucb.edu.bo.Proyecto.entity.Administrativo;
 import ucb.edu.bo.Proyecto.entity.User;
 import ucb.edu.bo.Proyecto.repositories.AdministrativoRepository;
 import ucb.edu.bo.Proyecto.repositories.UserRepository;
+import ucb.edu.bo.Proyecto.services.IAdministrativo;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class ImpAdministrativoService {
+@Service
+public class ImpAdministrativoService implements IAdministrativo {
 
 
     Logger logger = LoggerFactory.getLogger(ImpAdministrativoService.class);
