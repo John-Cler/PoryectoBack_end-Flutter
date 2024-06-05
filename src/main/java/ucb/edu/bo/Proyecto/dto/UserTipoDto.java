@@ -10,5 +10,4 @@ public class UserTipoDto {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-
 }

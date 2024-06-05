@@ -8,6 +8,7 @@ import java.util.Date;
 public class MantenimientoDto {
 
     private Integer id;
+    private String codigo;
     private EquipoDto equipoDto;
     private Integer id_equipo;
     private SolicitudMantenimientoDto solicitudMantenimientoDto;
@@ -18,6 +19,15 @@ public class MantenimientoDto {
     private String observaciones;
     private String estado_equipo;
     private Date fecha_registro;
+
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
 
     public EquipoDto getEquipoDto() {
         return equipoDto;

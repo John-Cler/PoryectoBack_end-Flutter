@@ -1,5 +1,6 @@
 package ucb.edu.bo.Proyecto.dto;
 
+
 public class ErrorDto {
     private String descripcion;
 
