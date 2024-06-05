@@ -1,9 +1,5 @@
 package ucb.edu.bo.Proyecto.dto;
 
-import ucb.edu.bo.Proyecto.entity.AsignacionEquipo;
-import ucb.edu.bo.Proyecto.entity.Bloque;
-import ucb.edu.bo.Proyecto.entity.Departamento;
-import ucb.edu.bo.Proyecto.entity.User;
 
 import java.util.List;
 

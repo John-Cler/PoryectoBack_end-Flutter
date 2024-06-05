@@ -1,7 +1,20 @@
 package ucb.edu.bo.Proyecto.dto;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+@Entity
+@DynamicInsert
+@DynamicUpdate
+@Table(name = "bloques")
 public class BloqueDto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name="nombre")
     private String nombre;
 
     public Integer getId() {

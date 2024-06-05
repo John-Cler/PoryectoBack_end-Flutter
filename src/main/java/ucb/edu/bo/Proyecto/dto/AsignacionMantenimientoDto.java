@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class AsignacionMantenimientoDto {
     private Integer id;
+    private String codigo;
     private SolicitudMantenimientoDto solicitudMantenimientoDto;
     private Integer id_solicitud_mantenimiento;
     private UserDto userDto;
@@ -21,6 +22,14 @@ public class AsignacionMantenimientoDto {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public SolicitudMantenimientoDto getSolicitudMantenimientoDto() {
