@@ -10,6 +10,7 @@ import java.util.List;
 
 public class EquipoDto {
     private Integer id;
+    private String codigo;
     private String tipo;
     private Integer id_departamento;
     private DepartamentoDto departamentoDto;
@@ -20,7 +21,7 @@ public class EquipoDto {
     private String nro_serie;
     private String marca;
     private String modelo;
-
+    private String estado;
 
     public Integer getId() {
         return id;
@@ -28,6 +29,14 @@ public class EquipoDto {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getTipo() {
@@ -108,5 +117,13 @@ public class EquipoDto {
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }
