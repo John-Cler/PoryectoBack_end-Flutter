@@ -6,5 +6,5 @@ import ucb.edu.bo.Proyecto.entity.Administrativo;
 
 @Repository
 public interface AdministrativoRepository extends JpaRepository<Administrativo,Integer> {
-
 }
+

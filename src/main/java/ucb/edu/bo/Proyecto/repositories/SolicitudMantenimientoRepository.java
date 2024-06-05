@@ -17,3 +17,4 @@ public interface SolicitudMantenimientoRepository extends JpaRepository<Solicitu
     @Query("SELECT sm FROM SolicitudMantenimiento sm WHERE sm.user.id = :id_user ORDER BY sm.id ASC")
     List<SolicitudMantenimiento> getByIdUser(@Param("id_user")Integer id_user);
 }
+
