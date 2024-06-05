@@ -57,4 +57,3 @@ public class AsignacionEquipo {
         this.user = user;
     }
 }
-

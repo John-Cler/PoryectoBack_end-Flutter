@@ -70,4 +70,3 @@ public class Administrativo {
         this.asignacion_equipos = asignacion_equipos;
     }
 }
-
