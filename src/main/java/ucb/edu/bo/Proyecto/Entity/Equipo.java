@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.List;
 
+@NamedQuery(name = "Equipo.findByCodigo", query = "select e from Equipo e where e.codigo=:codigo")
 @Entity
 @DynamicInsert
 @DynamicUpdate
@@ -15,6 +16,8 @@ public class Equipo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name="codigo",unique = true)
+    private String codigo;
     @Column(name="tipo")
     private String tipo;
     @ManyToOne
@@ -33,6 +36,8 @@ public class Equipo {
     private String marca;
     @Column(name="modelo")
     private String modelo;
+    @Column(name="estado")
+    private String estado;
     @OneToOne(mappedBy = "equipo", cascade = CascadeType.ALL, orphanRemoval = true)
     private AsignacionEquipo asignacionEquipo;
     @JsonIgnore
@@ -45,6 +50,14 @@ public class Equipo {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getTipo() {
@@ -109,6 +122,14 @@ public class Equipo {
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public AsignacionEquipo getAsignacionEquipo() {
