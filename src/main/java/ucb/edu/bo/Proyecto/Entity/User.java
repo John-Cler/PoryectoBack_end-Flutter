@@ -35,6 +35,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AsignacionEquipo> asignacion_equipos;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SolicitudMantenimiento> solicitud_mantenimientos;
+
     public Integer getId() {
         return id;
     }
@@ -89,5 +93,13 @@ public class User {
 
     public void setAsignacion_equipos(List<AsignacionEquipo> asignacion_equipos) {
         this.asignacion_equipos = asignacion_equipos;
+    }
+
+    public List<SolicitudMantenimiento> getSolicitud_mantenimientos() {
+        return solicitud_mantenimientos;
+    }
+
+    public void setSolicitud_mantenimientos(List<SolicitudMantenimiento> solicitud_mantenimientos) {
+        this.solicitud_mantenimientos = solicitud_mantenimientos;
     }
 }

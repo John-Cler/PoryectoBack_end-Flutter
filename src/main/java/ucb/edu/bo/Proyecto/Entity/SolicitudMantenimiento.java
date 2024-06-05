@@ -1,5 +1,6 @@
 package ucb.edu.bo.Proyecto.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -14,6 +15,9 @@ public class SolicitudMantenimiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name="codigo",unique = true)
+    private String codigo;
     @ManyToOne
     @JoinColumn(name = "id_user",referencedColumnName = "id")
     private User user;
@@ -27,12 +31,24 @@ public class SolicitudMantenimiento {
     @Temporal(TemporalType.DATE)
     private Date fecha_registro;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "solicitud_mantenimiento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private AsignacionMantenimiento asignacionMantenimiento;
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public User getUser() {
@@ -73,5 +89,13 @@ public class SolicitudMantenimiento {
 
     public void setFecha_registro(Date fecha_registro) {
         this.fecha_registro = fecha_registro;
+    }
+
+    public AsignacionMantenimiento getAsignacionMantenimiento() {
+        return asignacionMantenimiento;
+    }
+
+    public void setAsignacionMantenimiento(AsignacionMantenimiento asignacionMantenimiento) {
+        this.asignacionMantenimiento = asignacionMantenimiento;
     }
 }

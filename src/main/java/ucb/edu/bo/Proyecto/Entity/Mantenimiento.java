@@ -14,6 +14,8 @@ public class Mantenimiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name="codigo",unique = true)
+    private String codigo;
 
     @ManyToOne
     @JoinColumn(name = "id_equipo", referencedColumnName = "id")
@@ -39,6 +41,14 @@ public class Mantenimiento {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public SolicitudMantenimiento getSolicitud_mantenimiento() {
