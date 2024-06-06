@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @Service
 public class ImpAdministrativoService implements IAdministrativo {
 
-
     Logger logger = LoggerFactory.getLogger(ImpAdministrativoService.class);
     @Autowired
     private AdministrativoRepository administrativoRepository;

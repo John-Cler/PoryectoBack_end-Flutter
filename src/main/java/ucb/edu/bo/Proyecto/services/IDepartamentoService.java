@@ -11,3 +11,4 @@ public interface IDepartamentoService {
     DepartamentoDto departamento(Integer id);
     Boolean eliminar(DepartamentoDto departamentoDto);
 }
+

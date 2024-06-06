@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import ucb.edu.bo.Proyecto.dto.BloqueDto;
 import ucb.edu.bo.Proyecto.dto.DepartamentoDto;
@@ -44,20 +45,29 @@ public class ImpEquipoService implements IEquipoService {
     }
 
     @Override
+    @Transactional
     public EquipoDto guardar(EquipoDto equipoDto) {
-        if (equipoDto.getId() != null) {
-            Optional<Equipo> optionalEquipo = equipoRepository.findById(equipoDto.getId());
-            if (optionalEquipo.isPresent()) {
-                Equipo oldEquipo = optionalEquipo.get();
-                oldEquipo.setBloque(null);
-                oldEquipo.setDepartamento(null);
-                equipoRepository.save(oldEquipo);
-            }
-        }
-
         Equipo equipo = converToEntity(equipoDto);
-
         return convertToDto(equipoRepository.save(equipo));
+    }
+
+    @Override
+    @Transactional
+    @Modifying
+    public EquipoDto actualizar(EquipoDto equipoDto) {
+        Equipo equipo = converToEntity(equipoDto);
+        return convertToDto(equipoRepository.save(equipo));
+    }
+
+    @Override
+    public EquipoDto getByCodigo(String codigo) {
+        Equipo equipo = equipoRepository.findByCodigo(codigo);
+        if (equipo != null) {
+            EquipoDto equipoDto = convertToDto(equipo);
+            return equipoDto;
+        }
+        //throw new RegisterNotFoundException("Registro no encontrado");
+        return null;
     }
 
     @Override
@@ -92,19 +102,21 @@ public class ImpEquipoService implements IEquipoService {
 
     private EquipoDto convertToDto(Equipo equipo) {
         EquipoDto equipoDto = modelMapper.map(equipo, EquipoDto.class);
-        equipoDto.setId_bloque(equipo.getBloque().getId());
-        equipoDto.setId_departamento(equipo.getDepartamento().getId());
-        BloqueDto bloqueDto = bloqueService.bloque(equipo.getBloque().getId());
-        DepartamentoDto departamentoDto = departamentoService.departamento(equipo.getDepartamento().getId());
-        equipoDto.setBloqueDto(bloqueDto);
-        equipoDto.setDepartamentoDto(departamentoDto);
+        if (equipo.getBloque() != null) {
+            equipoDto.setId_bloque(equipo.getBloque().getId());
+            BloqueDto bloqueDto = bloqueService.bloque(equipo.getBloque().getId());
+            equipoDto.setBloqueDto(bloqueDto);
+        }
+        if (equipo.getDepartamento() != null) {
+            equipoDto.setId_departamento(equipo.getDepartamento().getId());
+            DepartamentoDto departamentoDto = departamentoService.departamento(equipo.getDepartamento().getId());
+            equipoDto.setDepartamentoDto(departamentoDto);
+        }
         return equipoDto;
     }
 
     private Equipo converToEntity(EquipoDto equipoDto) {
         Equipo equipo = modelMapper.map(equipoDto, Equipo.class);
-        equipo.setBloque(null);
-        equipo.setDepartamento(null);
         if (equipoDto.getId() != null) {
             Optional<Equipo> optionalEquipo = equipoRepository.findById(equipoDto.getId());
             if (optionalEquipo.isPresent()) {

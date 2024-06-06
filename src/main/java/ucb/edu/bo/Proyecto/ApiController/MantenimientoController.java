@@ -5,10 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ucb.edu.bo.Proyecto.dto.AsignacionMantenimientoDto;
+import ucb.edu.bo.Proyecto.dto.EquipoDto;
 import ucb.edu.bo.Proyecto.dto.MantenimientoDto;
 import ucb.edu.bo.Proyecto.dto.responses.ApiResponse;
 import ucb.edu.bo.Proyecto.dto.responses.ValidationErrorsResponse;
 import ucb.edu.bo.Proyecto.services.implementation.ImpAsignacionMantenimientoService;
+import ucb.edu.bo.Proyecto.services.implementation.ImpEquipoService;
 import ucb.edu.bo.Proyecto.services.implementation.ImpMantenimientoService;
 import ucb.edu.bo.Proyecto.services.implementation.ImpSolicitudMantenimientoService;
 
@@ -23,6 +25,8 @@ public class MantenimientoController {
     private ImpAsignacionMantenimientoService asignacionMantenimientoService;
     @Autowired
     private ImpSolicitudMantenimientoService solicitudMantenimientoService;
+    @Autowired
+    private ImpEquipoService equipoService;
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<MantenimientoDto>>> mantenimientos() {
@@ -34,6 +38,17 @@ public class MantenimientoController {
     public ResponseEntity<ApiResponse<List<MantenimientoDto>>> mantenimientoByIdEquipo(@PathVariable("id") Integer id) {
         List<MantenimientoDto> mantenimientoDtoList = mantenimientoService.getByIdEquipo(id);
         return ResponseEntity.ok(new ApiResponse<>(true, "", mantenimientoDtoList));
+    }
+
+    @GetMapping("por_codigo_equipo")
+    public ResponseEntity<ApiResponse<List<MantenimientoDto>>> mantenimientoByCodigoEquipo(@RequestParam("codigo") String codigo) {
+        EquipoDto equipoDto = equipoService.getByCodigo(codigo);
+        if (equipoDto != null) {
+            List<MantenimientoDto> mantenimientoDtoList = mantenimientoService.getByIdEquipo(equipoDto.getId());
+            return ResponseEntity.ok(new ApiResponse<>(true, "", mantenimientoDtoList));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "No se encontrarón registros con ese código", null));
+
     }
 
     @GetMapping("por_solicitud_mantenimiento/{id}")

@@ -59,7 +59,7 @@ public class ImpUserService implements IUserService {
 
     @Override
     public UserDto asignarTipo(Integer id,String tipo){
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<User>optionalUser = userRepository.findById(id);
         if(optionalUser.isPresent()){
             User user = optionalUser.get();
             user.setTipo(tipo);

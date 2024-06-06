@@ -8,6 +8,10 @@ public interface IEquipoService {
     List<EquipoDto> listado();
     EquipoDto guardar(EquipoDto equipoDto);
 
+    EquipoDto actualizar(EquipoDto equipoDto);
+
+    EquipoDto getByCodigo(String codigo);
+
     EquipoDto equipo(Integer id);
     Boolean eliminar(EquipoDto equipoDto);
 }

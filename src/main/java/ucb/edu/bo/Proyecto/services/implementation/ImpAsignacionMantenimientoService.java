@@ -8,9 +8,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import ucb.edu.bo.Proyecto.dto.AsignacionMantenimientoDto;
 import ucb.edu.bo.Proyecto.entity.AsignacionMantenimiento;
+import ucb.edu.bo.Proyecto.entity.Equipo;
 import ucb.edu.bo.Proyecto.entity.SolicitudMantenimiento;
 import ucb.edu.bo.Proyecto.entity.User;
 import ucb.edu.bo.Proyecto.repositories.AsignacionMantenimientoRepository;
+import ucb.edu.bo.Proyecto.repositories.EquipoRepository;
 import ucb.edu.bo.Proyecto.repositories.SolicitudMantenimientoRepository;
 import ucb.edu.bo.Proyecto.repositories.UserRepository;
 import ucb.edu.bo.Proyecto.services.IAsignacionMantenimientoService;
@@ -32,6 +34,8 @@ public class ImpAsignacionMantenimientoService implements IAsignacionMantenimien
     @Autowired
     private ImpUserService userService;
     @Autowired
+    private EquipoRepository equipoRepository;
+    @Autowired
     private ImpSolicitudMantenimientoService solicitudMantenimientoService;
 
     @Override
@@ -46,7 +50,7 @@ public class ImpAsignacionMantenimientoService implements IAsignacionMantenimien
     @Override
     public AsignacionMantenimientoDto getByIdSolicitudMantenimiento(Integer id_solicitud_mantenimiento) {
         AsignacionMantenimiento asignacionMantenimiento = asignacionMantenimientoRepository.getByIdSolicitudMantenimiento(id_solicitud_mantenimiento);
-        if(asignacionMantenimiento != null){
+        if (asignacionMantenimiento != null) {
             AsignacionMantenimientoDto asignacionMantenimientoDto = convertToDto(asignacionMantenimiento);
             return asignacionMantenimientoDto;
         }
@@ -67,6 +71,15 @@ public class ImpAsignacionMantenimientoService implements IAsignacionMantenimien
         asignacionMantenimientoDto.setFecha_asignacion(fechaActualService.getFechaAtual());
         AsignacionMantenimiento asignacionMantenimiento = converToEntity(asignacionMantenimientoDto);
         AsignacionMantenimiento saveAsignacionMantenimiento = asignacionMantenimientoRepository.save(asignacionMantenimiento);
+
+        //actualizar estado equipo
+        Equipo equipo = saveAsignacionMantenimiento.getSolicitud_mantenimiento().getEquipo();
+        equipo.setEstado("En Mantenimiento");
+        equipo = equipoRepository.save(equipo);
+        saveAsignacionMantenimiento.getSolicitud_mantenimiento().setEquipo(equipo);
+
+        saveAsignacionMantenimiento.setCodigo("AM." + saveAsignacionMantenimiento.getId());
+        saveAsignacionMantenimiento = asignacionMantenimientoRepository.save(saveAsignacionMantenimiento);
 
         // actualizar el estado de la solicitud
         SolicitudMantenimiento solicitudMantenimiento = saveAsignacionMantenimiento.getSolicitud_mantenimiento();
@@ -105,7 +118,14 @@ public class ImpAsignacionMantenimientoService implements IAsignacionMantenimien
             // actualizar el estado de la solicitud
             SolicitudMantenimiento solicitudMantenimiento = asignacionMantenimiento.getSolicitud_mantenimiento();
             solicitudMantenimiento.setEstado("Pendiente");
+
+            //actualizar estado equipo
+            Equipo equipo = asignacionMantenimiento.getSolicitud_mantenimiento().getEquipo();
+            equipo.setEstado("Mantenimiento Pendiente");
+            equipoRepository.save(equipo);
             solicitudMantenimientoRepository.save(solicitudMantenimiento);
+
+            asignacionMantenimiento.getSolicitud_mantenimiento().setAsignacionMantenimiento(null);
             asignacionMantenimientoRepository.delete(asignacionMantenimiento);
             return true;
         } catch (Exception e) {

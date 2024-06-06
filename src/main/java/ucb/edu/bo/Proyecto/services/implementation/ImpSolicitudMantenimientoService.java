@@ -62,7 +62,19 @@ public class ImpSolicitudMantenimientoService implements ISolicitudMantenimiento
         solicitudMantenimientoDto.setEstado("Pendiente");
         solicitudMantenimientoDto.setFecha_registro(fechaActualService.getFechaAtual());
         SolicitudMantenimiento solicitudMantenimiento = converToEntity(solicitudMantenimientoDto);
-        return convertToDto(solicitudMantenimientoRepository.save(solicitudMantenimiento));
+        SolicitudMantenimiento saveSolicitudMantenimiento = solicitudMantenimientoRepository.save(solicitudMantenimiento);
+
+        //actualizar estado equipo
+        Equipo equipo = saveSolicitudMantenimiento.getEquipo();
+        equipo.setEstado("Mantenimiento Pendiente");
+        equipo = equipoRepository.save(equipo);
+
+        saveSolicitudMantenimiento.setEquipo(equipo);
+        saveSolicitudMantenimiento.setCodigo("SM."+saveSolicitudMantenimiento.getId());
+        saveSolicitudMantenimiento = solicitudMantenimientoRepository.save(saveSolicitudMantenimiento);
+
+
+        return convertToDto(saveSolicitudMantenimiento);
     }
 
     @Override
@@ -91,6 +103,12 @@ public class ImpSolicitudMantenimientoService implements ISolicitudMantenimiento
     public Boolean eliminar(SolicitudMantenimientoDto solicitudMantenimientoDto) {
         try {
             SolicitudMantenimiento solicitudMantenimiento = converToEntity(solicitudMantenimientoDto);
+
+            //actualizar estado equipo
+            Equipo equipo = solicitudMantenimiento.getEquipo();
+            equipo.setEstado("Activo");
+            equipoRepository.save(equipo);
+
             solicitudMantenimientoRepository.delete(solicitudMantenimiento);
             return true;
         } catch (Exception e) {

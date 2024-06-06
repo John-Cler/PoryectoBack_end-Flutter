@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import ucb.edu.bo.Proyecto.dto.AsignacionMantenimientoDto;
 import ucb.edu.bo.Proyecto.dto.MantenimientoDto;
 import ucb.edu.bo.Proyecto.entity.AsignacionMantenimiento;
+import ucb.edu.bo.Proyecto.entity.Equipo;
 import ucb.edu.bo.Proyecto.entity.Mantenimiento;
 import ucb.edu.bo.Proyecto.entity.SolicitudMantenimiento;
 import ucb.edu.bo.Proyecto.repositories.AsignacionMantenimientoRepository;
+import ucb.edu.bo.Proyecto.repositories.EquipoRepository;
 import ucb.edu.bo.Proyecto.repositories.MantenimientoRepository;
 import ucb.edu.bo.Proyecto.repositories.SolicitudMantenimientoRepository;
 import ucb.edu.bo.Proyecto.services.IMantenimientoService;
@@ -34,6 +36,8 @@ public class ImpMantenimientoService implements IMantenimientoService {
     private ImpAsignacionMantenimientoService asignacionMantenimientoService;
     @Autowired
     private ImpSolicitudMantenimientoService solicitudMantenimientoService;
+    @Autowired
+    private EquipoRepository equipoRepository;
 
     @Override
     public List<MantenimientoDto> listado() {
@@ -55,7 +59,7 @@ public class ImpMantenimientoService implements IMantenimientoService {
     @Override
     public MantenimientoDto getByIdSolicitudMantenimiento(Integer id_solicitud_mantenimiento) {
         Mantenimiento mantenimiento = mantenimientoRepository.getByIdSolicitudMantenimiento(id_solicitud_mantenimiento);
-        if(mantenimiento != null){
+        if (mantenimiento != null) {
             MantenimientoDto mantenimientoDto = convertToDto(mantenimiento);
             return mantenimientoDto;
         }
@@ -65,7 +69,7 @@ public class ImpMantenimientoService implements IMantenimientoService {
     @Override
     public MantenimientoDto getByIdAsignacionMantenimiento(Integer id_asignacion_mantenimiento) {
         Mantenimiento mantenimiento = mantenimientoRepository.getByIdAsignacionMantenimiento(id_asignacion_mantenimiento);
-        if(mantenimiento != null){
+        if (mantenimiento != null) {
             MantenimientoDto mantenimientoDto = convertToDto(mantenimiento);
             return mantenimientoDto;
         }
@@ -77,6 +81,15 @@ public class ImpMantenimientoService implements IMantenimientoService {
         mantenimientoDto.setFecha_registro(fechaActualService.getFechaAtual());
         Mantenimiento mantenimiento = converToEntity(mantenimientoDto);
         Mantenimiento saveMantenimiento = mantenimientoRepository.save(mantenimiento);
+
+        //actualizar estado equipo
+        Equipo equipo = saveMantenimiento.getEquipo();
+        equipo.setEstado(mantenimientoDto.getEstado_equipo());
+        equipo = equipoRepository.save(equipo);
+
+        saveMantenimiento.setEquipo(equipo);
+        saveMantenimiento.setCodigo("M." + saveMantenimiento.getId());
+        saveMantenimiento = mantenimientoRepository.save(saveMantenimiento);
 
         // actualizar el estado de la solicitud
         AsignacionMantenimiento asignacionMantenimiento = saveMantenimiento.getAsignacion_mantenimiento();
@@ -115,7 +128,14 @@ public class ImpMantenimientoService implements IMantenimientoService {
             // actualizar el estado de la solicitud
             AsignacionMantenimiento asignacionMantenimiento = mantenimiento.getAsignacion_mantenimiento();
             asignacionMantenimiento.setEstado("Pendiente");
+
+            Equipo equipo = mantenimiento.getEquipo();
+            equipo.setEstado("En Mantenimiento");
+
+            equipoRepository.save(equipo);
             asignacionMantenimientoReopository.save(asignacionMantenimiento);
+
+            mantenimiento.getAsignacion_mantenimiento().setSolicitud_mantenimiento(null);
             mantenimientoRepository.delete(mantenimiento);
             return true;
         } catch (Exception e) {

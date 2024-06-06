@@ -15,3 +15,4 @@ public interface IEquipoParteService {
 
     Boolean eliminar(EquipoParteDto equipoParteDto);
 }
+
